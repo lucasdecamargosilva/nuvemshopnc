@@ -158,11 +158,11 @@
 
         :root {
             --c-bg: #ffffff;
-            --c-surface: #eef3c4;
+            --c-surface: #f7f6f4;
             --c-ink: #111111;
             --c-muted: #999;
-            --c-line: #dfe6b8;
-            --c-accent: #3f3d38;
+            --c-line: #e8e8e8;
+            --c-accent: #111111;
             --c-danger: #cc3333;
             --font-display: inherit;
             --font-body: inherit;
@@ -1129,8 +1129,8 @@
                 inlineBtn.style.fontWeight = cs.fontWeight;
                 inlineBtn.style.letterSpacing = cs.letterSpacing;
                 inlineBtn.style.textTransform = cs.textTransform;
-                inlineBtn.style.padding = cs.padding;
-                inlineBtn.style.minHeight = cs.height;
+                var _vpad = Math.max(8, Math.round(parseFloat(cs.paddingTop || '12') * 0.6));
+                inlineBtn.style.padding = _vpad + 'px ' + (cs.paddingRight || '20px');
                 inlineBtn.style.background = '#fff';
                 inlineBtn.style.color = _accent;
                 inlineBtn.style.borderWidth = (parseFloat(cs.borderTopWidth) > 0 ? cs.borderTopWidth : '1.5px');
