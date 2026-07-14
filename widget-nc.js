@@ -256,6 +256,11 @@
             border-bottom: 1px solid var(--c-line);
             padding-bottom: 22px; margin-bottom: 0;
         }
+        .q-modal-title {
+            font-family: var(--font-display, 'Bebas Neue', sans-serif);
+            font-size: 15px; font-weight: 700; letter-spacing: 4px;
+            text-transform: uppercase; color: var(--c-ink); line-height: 1;
+        }
         /* ── Main step ── */
         #q-step-photo {
             display: flex; flex-direction: column; padding: 28px 28px 32px;
@@ -699,7 +704,8 @@
 
                     <!-- Persistent header (all steps) -->
                     <div id="q-header-provador">
-                        <img src="https://dcdn-us.mitiendanube.com/stores/007/014/780/themes/common/logo-1409808322880496939-1783621642-f9ec65b81c8002a3409cdf7b795606651783621643-640-0.webp" alt="NC CONCEITO" style="height:60px;width:auto;"/>
+                        <div class="q-modal-title">PROVADOR VIRTUAL</div>
+                        <img src="https://dcdn-us.mitiendanube.com/stores/007/014/780/themes/common/logo-1409808322880496939-1783621642-f9ec65b81c8002a3409cdf7b795606651783621643-640-0.webp" alt="NC CONCEITO" style="height:76px;width:auto;"/>
                     </div>
 
                     <!-- Main step -->
