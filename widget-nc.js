@@ -1531,7 +1531,8 @@
                 });
                 const d = await r.json();
                 const used = Math.max(d.phone_count || 0, d.ip_count || 0, d.count || 0);
-                const restantes = Math.max(0, 4 - used);
+                const _lim = Number(d.limit) || 3;
+                const restantes = Math.max(0, _lim - used);
                 if (restantes > 0) {
                     const _txt = restantes + (restantes === 1 ? ' prova restante hoje' : ' provas restantes hoje');
                     _els.forEach(el => { el.textContent = _txt; el.classList.remove('is-warn'); });
