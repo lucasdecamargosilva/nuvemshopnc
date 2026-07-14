@@ -171,7 +171,7 @@
         /* ── Trigger (selo sobre foto) ── */
         @keyframes q-shake { 0%,50%,100%{transform:rotate(0deg)} 10%,30%{transform:rotate(-10deg)} 20%,40%{transform:rotate(10deg)} }
         .q-btn-trigger-ia {
-            position: absolute; top: 14px; right: 14px; z-index: 100;
+            position: absolute; top: 42px; right: 14px; z-index: 100;
             background: none; border: none; padding: 0; cursor: pointer;
             width: 70px; height: 70px;
             display: flex; align-items: center; justify-content: center;
@@ -1119,6 +1119,26 @@
         // Posiciona acima do botão de compra
         const buyBtn = document.querySelector('.js-addtocart, .btn-add-to-cart, [data-component="product.add-to-cart"]');
         if (buyBtn) {
+            // Espelha o design do botão de compra, mas com fundo BRANCO (inverso).
+            try {
+                const cs = getComputedStyle(buyBtn);
+                var _accent = (cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') ? cs.backgroundColor : cs.color;
+                inlineBtn.style.borderRadius = cs.borderRadius;
+                inlineBtn.style.fontFamily = cs.fontFamily;
+                inlineBtn.style.fontSize = cs.fontSize;
+                inlineBtn.style.fontWeight = cs.fontWeight;
+                inlineBtn.style.letterSpacing = cs.letterSpacing;
+                inlineBtn.style.textTransform = cs.textTransform;
+                inlineBtn.style.padding = cs.padding;
+                inlineBtn.style.minHeight = cs.height;
+                inlineBtn.style.background = '#fff';
+                inlineBtn.style.color = _accent;
+                inlineBtn.style.borderWidth = (parseFloat(cs.borderTopWidth) > 0 ? cs.borderTopWidth : '1.5px');
+                inlineBtn.style.borderStyle = 'solid';
+                inlineBtn.style.borderColor = _accent;
+                inlineBtn.addEventListener('mouseenter', function () { inlineBtn.style.background = _accent; inlineBtn.style.color = '#fff'; });
+                inlineBtn.addEventListener('mouseleave', function () { inlineBtn.style.background = '#fff'; inlineBtn.style.color = _accent; });
+            } catch (_) {}
             buyBtn.parentNode.insertBefore(inlineBtn, buyBtn);
         } else {
             const variantsContainer = document.querySelector('.js-product-variants');
