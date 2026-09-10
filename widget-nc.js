@@ -1300,7 +1300,18 @@
         async function _plImgHasFace(det, img) {
             try {
                 if (det.native) { var f = await det.native.detect(img); return !!(f && f.length); }
-                if (det.mp) { var r = det.mp.detect(img); return !!(r && r.detections && r.detections.length); }
+                if (det.mp) {
+                    var r = det.mp.detect(img);
+                    var detections = (r && r.detections) || [];
+                    // O BlazeFace pode confundir a armação isolada com um rosto. Só aceita
+                    // detecções com confiança suficiente; fotos reais da galeria ficam bem
+                    // acima deste corte, enquanto o falso positivo do packshot não passa.
+                    return detections.some(function (d) {
+                        var categories = d && d.categories;
+                        var score = categories && categories.length ? Number(categories[0].score) : 0;
+                        return score >= 0.75;
+                    });
+                }
             } catch (e) {}
             return false;
         }
