@@ -1970,24 +1970,19 @@ const fd = new FormData();
                             }
                         }
                     } catch (_) {}
-                    // Detecção de rosto: manda 1 foto no rosto como PRINCIPAL (o gerador usa pra
-                    // calibrar a proporção/tamanho do óculos) + as fotos de fundo branco (packshot),
-                    // que mostram os detalhes da armação. Assim garante proporção E detalhe.
-                    // Sem rosto detectado → mantém as fotos default (fallback, sem regressão).
+                    // Detecção de rosto: quando houver fotos do produto no rosto de uma modelo,
+                    // envia somente elas. Packshots não entram junto porque podem fazer o gerador
+                    // priorizar a foto isolada e perder a proporção observada no rosto.
+                    // Sem rosto detectado, mantém as fotos default para não bloquear a prova.
                     try {
                         if (faceDetectPromise) { await Promise.race([faceDetectPromise, new Promise(function (r) { setTimeout(r, 4000); })]); }
                         if (_faceUrls && _faceUrls.length) {
                             var _key = function (u) { return String(u || '').split('?')[0]; };
-                            var _faceKeys = {};
-                            _faceUrls.forEach(function (u) { _faceKeys[_key(u)] = 1; });
-                            var _packshots = allProdImgs.filter(function (u) { return !_faceKeys[_key(u)]; });
-                            var _mix = [];
-                            var _add = function (u) { if (u && !_mix.some(function (x) { return _key(x) === _key(u); })) _mix.push(u); };
-                            _add(_faceUrls[0]);                // 1 rosto (proporção) — principal
-                            _packshots.forEach(_add);          // packshots (detalhe da armação)
-                            _faceUrls.slice(1).forEach(_add);  // rostos extras, se sobrar vaga
-                            allProdImgs.forEach(_add);         // fallback: completa com o que houver
-                            allProdImgs = _mix;
+                            var _onlyFaces = [];
+                            _faceUrls.forEach(function (u) {
+                                if (u && !_onlyFaces.some(function (x) { return _key(x) === _key(u); })) _onlyFaces.push(u);
+                            });
+                            allProdImgs = _onlyFaces;
                         }
                     } catch (e) {}
                     allProdImgs = allProdImgs.slice(0, 4);
